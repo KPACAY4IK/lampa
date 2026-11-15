@@ -1,0 +1,12 @@
+{
+  "packageType": "app",
+  "name": "lampa",
+  "appName": "Лампа",
+  "appPath": "app/index.html",
+  "version": "1.0.0",
+  "icon": "icon.png",
+  "author": "KPACAY4IK",
+  "license": "MIT",
+  "keys": [],
+  "serviceFile": "service.js"
+}

@@ -1,0 +1,71 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lampa - Фильмы и сериалы</title>
+    <meta name="referrer" content="never">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yumata/lampa@main/vender/scrollbar/jquery.scrollbar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yumata/lampa@main/vender/keypad/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yumata/lampa@main/css/app.css">
+</head>
+<body style="background: #1d1f20;">
+    <script>
+        window.youtube_lazy_load = true
+    </script>
+
+    <div class="welcome"></div>
+    <div id="app"></div>
+
+    <div class="no-network hide">
+        <div class="no-network__title">Ошибка</div>
+        <div class="no-network__desc">Не удалось загрузить файл: <span class="no-network__file"></span></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/yumata/lampa@main/vender/jquery/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/yumata/lampa@main/vender/notify/notify.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/yumata/lampa@main/vender/scrollbar/jquery.scrollbar.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/yumata/lampa@main/vender/navigator/navigator.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/yumata/lampa@main/vender/keypad/keypad.js"></script>
+
+    <script>
+        var CDN = 'https://cdn.jsdelivr.net/gh/yumata/lampa@main/';
+
+        function putScript(src, onload, onerror) {
+            console.log('Loader', 'try-load', src);
+            var trys = 0;
+
+            function createScript() {
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.onload = function() {
+                    console.log('Loader', 'loaded', src);
+                    if (onload) onload();
+                };
+                script.onerror = function() {
+                    trys++;
+                    console.log('Loader', 'error', src, trys);
+                    if (trys < 3) {
+                        createScript();
+                    } else if (onerror) {
+                        onerror();
+                    } else {
+                        document.querySelector('.no-network').classList.remove('hide');
+                        document.querySelector('.no-network__file').textContent = src;
+                    }
+                };
+                script.src = src;
+                document.body.appendChild(script);
+            }
+
+            createScript();
+        }
+
+        /* Загружаем app.min.js с CDN */
+        putScript(CDN + 'app.min.js', function() {
+            console.log('Lampa loaded from CDN');
+        });
+    </script>
+</body>
+</html>
